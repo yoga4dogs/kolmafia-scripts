@@ -2,6 +2,9 @@
 
 Small KoLmafia ASH and relay-browser utilities.
 
+The Bounty Hunter Hunter page marks each known bounty with a green square when
+its adventure location is currently accessible, or a red square when it is not.
+
 ## Login scripts
 
 - `raffle_login.ash` adds a browser notice for the day's raffle prize.
