@@ -1,5 +1,3 @@
-import <long_term_goals.ash>;
-
 string bn_escape(string s)
 {
 	s = replace_string(s, "&", "&amp;");
@@ -12,8 +10,6 @@ string bn_escape(string s)
 
 void main()
 {
-	handle_long_term_goal_action();
-
 	// Fetch the normal KoL main page.
 	buffer original = visit_url();
 	string page = original.to_string();
@@ -84,10 +80,14 @@ void main()
 		notification_html += "</div>";
 	}
 
-	if (raw != "")
-		notification_html += "</div>";
+	string goals_link =
+		"<div style=\"border:1px solid #b77900; background:#fff0c2; padding:6px 8px; margin-bottom:4px; text-align:center; font-weight:bold;\">" +
+		"<a href=\"long_term_goals.php\" style=\"color:inherit; text-decoration:none;\" title=\"Browse permanent unlocks, useful skills, major content, and historical rewards\">Long-Term Goals</a></div>";
+	if (raw == "")
+		notification_html = "<div id=\"mafia-custom-notifications\" style=\"width:95%; margin:6px auto;\">";
+	notification_html += goals_link + "</div>";
 
-	string custom_html = notification_html + render_long_term_goals();
+	string custom_html = notification_html;
 	if (custom_html == "")
 	{
 		write(page);

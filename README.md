@@ -50,12 +50,8 @@ The notices are displayed by `relay/main.ash`. It reruns `daily_reminders.ash`
 whenever the main map loads, so disabled or newly completed reminders disappear
 as soon as the main pane is refreshed.
 
-The main map also includes a priority-sorted **Long-Term Goals** panel. Skill,
-telescope, base-class-library, and Hardcore-perm goals use KoLmafia's native
-state; goals without reliable aggregate state have persistent **done** and
-**hide** controls. Per-class Sea overrides are `_customGoal_sea_SC`,
-`_customGoal_sea_TT`, `_customGoal_sea_PM`, `_customGoal_sea_S`,
-`_customGoal_sea_DB`, and `_customGoal_sea_AT`. Ignore selected Hardcore-perm
-skills with a comma-separated `customGoal_hcpermIgnore` property. Any goal can
-also be managed directly with persistent `customGoal_<id>_complete` and
-`customGoal_<id>_hidden` properties.
+The main map also links to a standalone **Long-Term Goals** page. It organizes
+important permanent unlocks, useful class skills, Sea progress, clan-dungeon
+skills, Hardcore perms, and curated historical rewards. Entries use native KoL
+icons and expand on click to show their unlock criteria. Completion is derived
+from KoLmafia state; the page has a non-persistent **Show completed** toggle.
