@@ -181,6 +181,14 @@ void remind_about_bounties()
 	}
 
 	browser_notify(
+		"test",
+		"TEST MESSAGE",
+		"main.php",
+		"JUST A TEST",
+		"message"
+	);
+
+	browser_notify(
 		"daily-bounties",
 		count(tiers) + " bounty " + (count(tiers) == 1 ? "assignment" : "assignments") + " available",
 		"bounty.php",
