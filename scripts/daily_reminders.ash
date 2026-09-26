@@ -189,27 +189,10 @@ void remind_about_bounties()
 	);
 }
 
-void remind_test() {
-	browser_notify(
-		"test",
-		"TEST MESSAGE",
-		"main.php",
-		"JUST A TEST",
-		"message"
-	);
-}
-
 void main()
 {
 	/* Stored notices survive page refreshes, so rebuild ours on every run. */
-	browser_notify_remove("test");
-	browser_notify_remove("daily-free-rests");
-	browser_notify_remove("daily-garden");
-	browser_notify_remove("daily-dungeon");
-	browser_notify_remove("daily-neverending-party");
-	browser_notify_remove("daily-bounties");
-
-	remind_test();
+	browser_notify_remove_prefix("daily-");
 
 	remind_about_free_rests();
 	remind_about_garden();

@@ -1,4 +1,4 @@
-void browser_notify_remove(string id)
+void browser_notify_remove_matching(string value, boolean prefix)
 {
 	string raw = get_property("_browserNotifications");
 
@@ -15,8 +15,15 @@ void browser_notify_remove(string id)
 
 		string [int] fields = split_string(entry, "\\|\\|\\|");
 
-		if (count(fields) > 0 && fields[0] == id)
-			continue;
+		if (count(fields) > 0)
+		{
+			boolean matches = prefix
+				? index_of(fields[0], value) == 0
+				: fields[0] == value;
+
+			if (matches)
+				continue;
+		}
 
 		if (kept != "")
 			kept += "\n";
@@ -25,6 +32,16 @@ void browser_notify_remove(string id)
 	}
 
 	set_property("_browserNotifications", kept);
+}
+
+void browser_notify_remove(string id)
+{
+	browser_notify_remove_matching(id, false);
+}
+
+void browser_notify_remove_prefix(string prefix)
+{
+	browser_notify_remove_matching(prefix, true);
 }
 
 void browser_notify(
