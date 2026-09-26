@@ -239,10 +239,14 @@ void remind_about_clan_freebies()
 	if (!reminder_enabled("dailyRemindersClan"))
 		return;
 
-	if (available_amount($item[Clan VIP Lounge key]) == 0)
+	/* KoLmafia itself requires the key to be in inventory to visit the lounge. */
+	if (item_amount($item[Clan VIP Lounge key]) == 0)
 		return;
 
-	string lounge = visit_url("clan_viplounge.php", false);
+	/* Fixtures can be on either floor. Match the normalized response text so
+	   image filenames work regardless of HTML capitalization. */
+	string lounge = to_lower_case(visit_url("clan_viplounge.php", false).to_string());
+	lounge += to_lower_case(visit_url("clan_viplounge.php?whichfloor=2", false).to_string());
 	if (contains_text(lounge, "klaw") && get_property("_deluxeKlawSummons").to_int() < 3)
 		browser_notify(
 			"daily-clan-klaw",
