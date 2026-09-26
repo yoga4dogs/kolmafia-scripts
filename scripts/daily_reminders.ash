@@ -114,7 +114,7 @@ void remind_about_daily_dungeon()
 	browser_notify(
 		"daily-dungeon",
 		"The Daily Dungeon is still available",
-		"dungeon.php",
+		"da.php",
 		"Open the Daily Dungeon. Disable with: set dailyRemindersDailyDungeon = false",
 		"message"
 	);
