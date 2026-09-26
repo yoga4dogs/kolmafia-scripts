@@ -113,8 +113,6 @@ void add_clan_dungeon_skills()
 {
 	foreach target in $skills[Awesome Balls of Fire, Conjure Relaxing Campfire, Snowclone, Maximum Chill, Eggsplosion, Mudbath, Grease Lightning, Inappropriate Backrub, Natural Born Scrabbler, Thrift and Grift, Abs of Tin, Marginally Insane, Raise Backup Dancer, Creepy Lullaby]
 		add_skill_entry("Clan Dungeons", "Hobopolis", target, "Acquire and read the corresponding Hobopolis skill book. Hodgman and the elemental district bosses supply the relevant books and journals.");
-	foreach target in $skills[Rainbow Gravitation, Vent Rage Gland]
-		add_skill_entry("Clan Dungeons", "Hobopolis — other permanent skills", target, "Complete the corresponding Hobopolis unlock and learn this permanent skill.");
 	add_item_entry("Clan Dungeons", "Hobopolis", $item[hobo code binder], "Get the binder from Hobopolis and fill it with glyphs found throughout the dungeon; the binder preserves learned hobo-code progress.");
 	foreach target in $items[Hodgman's whackin' stick, Hodgman's imaginary hamster, Hodgman's disgusting technicolor overcoat, Hodgman's porkpie hat, Hodgman's lobsterskin pants, Hodgman's bow tie, Hodgman's lucky sock, Hodgman's varcolac paw, Hodgman's almanac, Hodgman's harmonica, Hodgman's garbage sticker, Hodgman's metal detector, Hodgman's cane]
 		add_item_entry("Clan Dungeon Gear", "Hobopolis — Hodgman", target, "Defeat Hodgman and obtain this boss-equipment drop. Ownership is checked in inventory, equipped slots, the closet, Hagnk's storage, and the display case.");
@@ -166,7 +164,6 @@ void add_clan_dungeon_skills()
 
 void add_seasonal_and_buyable_skills()
 {
-	add_content_entry("Permanent Unlocks", "Neverending Party", "Permanent Neverending Party access", "Use a Neverending Party invitation envelope to permanently unlock the Neverending Party for the account.", get_property("neverendingPartyAlways").to_boolean(), get_property("neverendingPartyAlways").to_boolean() ? "Unlocked" : "Locked");
 	add_skill_entry("Permanent Unlocks", "Neverending Party", $skill[Drinking to Drink], "Complete the Neverending Party's quest progression and learn Drinking to Drink, the party's permanent passive skill.");
 
 	foreach target in $skills[Carol of the Bulls, Carol of the Hells, Carol of the Thrills]
@@ -179,28 +176,19 @@ void add_seasonal_and_buyable_skills()
 
 	foreach target in $skills[Really Expensive Jewelrycrafting, Perfect Freeze, Deep Dark Visions, Shrap, Intimidating Mien, Dinsey Operations Expert, Bow-Legged Swagger, Astute Angler, Gingerbread Mob Hit, Tempuramancy, Deep Saucery, Silent Treatment]
 		add_skill_entry("Purchasable Skills", "Skill books and manuals", target, "Buy, trade for, or otherwise acquire the corresponding skill book or manual, then use it to learn this permanent skill.");
-}
-
-void add_fernwarthy_rewards()
-{
-	int telescope = get_property("telescopeUpgrades").to_int();
-	boolean earned_basement_rewards = telescope > 0;
-	string reward_status = earned_basement_rewards ? "Milestones cleared" : "Not yet verified";
-	add_item_entry("Permanent Unlocks", "Fernswarthy's Basement rewards", $item[sandwich of the gods], "Reach Basement level 100. Level 400 awards another sandwich together with the other two consumable milestone rewards.", earned_basement_rewards, reward_status);
-	add_item_entry("Permanent Unlocks", "Fernswarthy's Basement rewards", $item[Pan-Dimensional Gargle Blaster], "Reach Basement level 200. Level 400 awards another Gargle Blaster together with the other two consumable milestone rewards.", earned_basement_rewards, reward_status);
-	add_item_entry("Permanent Unlocks", "Fernswarthy's Basement rewards", $item[enchanted leopard-print barbell], "Reach Basement level 300. Level 400 awards another barbell together with the other two consumable milestone rewards.", earned_basement_rewards, reward_status);
-	add_item_entry("Permanent Unlocks", "Fernswarthy's Basement rewards", $item[Discount Telescope Warehouse gift certificate], "Reach Basement level 500 and use the certificate to add one permanent telescope upgrade. Repeat level-500 clears across ascensions to reach all seven upgrades.", telescope >= 7, telescope.to_string() + " / 7 upgrades");
+	add_skill_entry("Purchasable Skills", "Skill books and manuals", $skill[Rainbow Gravitation], "Buy or trade for the Traveling Trader's skill book, then use it to learn Rainbow Gravitation.");
+	add_skill_entry("Purchasable Skills", "Skill books and manuals", $skill[Olfactory Burnout], "Buy or trade for A Scratch 'n' Sniff Guide to Dinseylandfill, then use it to learn Olfactory Burnout.");
+	add_skill_entry("Purchasable Skills", "Skill books and manuals", $skill[Vent Rage Gland], "Buy or trade for a throbbing rage gland, then use it to learn Vent Rage Gland.");
 }
 
 void add_sea_progress()
 {
-	string criteria = "Finish the Sea Monkees quest as this class and claim its Clothing of Loathing reward. Owning the class reward is used as the durable completion signal.";
-	add_item_entry("Content", "Sea — Seal Clubber", $item[stick-knife of Loathing], criteria);
-	add_item_entry("Content", "Sea — Turtle Tamer", $item[belt of Loathing], criteria);
-	add_item_entry("Content", "Sea — Pastamancer", $item[scepter of Loathing], criteria);
-	add_item_entry("Content", "Sea — Sauceror", $item[goggles of Loathing], criteria);
-	add_item_entry("Content", "Sea — Disco Bandit", $item[jeans of Loathing], criteria);
-	add_item_entry("Content", "Sea — Accordion Thief", $item[treads of Loathing], criteria);
+	foreach target in $items[Lens of Violence, Pigsticker of Violence, Brand of Violence, Jodhpurs of Violence, Ass-Stompers of Violence, Novelty Belt Buckle of Violence]
+		add_item_entry("Content", "The Sea — Violent Vestments", target, "Complete the relevant Sea Monkees finale and obtain this piece of the Violent Vestments outfit.");
+	foreach target in $items[Lens of Hatred, Staff of Simmering Hatred, Cold Stone of Hatred, Pantaloons of Hatred, Fuzzy Slippers of Hatred, Girdle of Hatred]
+		add_item_entry("Content", "The Sea — Hateful Habiliment", target, "Complete the relevant Sea Monkees finale and obtain this piece of the Hateful Habiliment outfit.");
+	foreach target in $items[Goggles of Loathing, Stick-Knife of Loathing, Scepter of Loathing, Jeans of Loathing, Treads of Loathing, Belt of Loathing, Pocket Square of Loathing]
+		add_item_entry("Content", "The Sea — Clothing of Loathing", target, "Complete the Sea Monkees quest with the appropriate class and obtain this piece of the Clothing of Loathing outfit.");
 }
 
 void add_hardcore_perms()
@@ -211,11 +199,12 @@ void add_hardcore_perms()
 
 void initialize_long_term_entries()
 {
-	add_skill_entry("Permanent Unlocks", "Bounty Hunter Hunter", $skill[Transcendent Olfaction], "Collect 200 filthy lucre from bounties and trade them to the Bounty Hunter Hunter for Manual of Transcendent Olfaction. Also acquire Olfactory Burnout separately if it is still missing.");
-	add_skill_entry("Permanent Unlocks", "Bounty Hunter Hunter", $skill[Olfactory Burnout], "Acquire and use the Olfactory Burnout skill item; this is a separate permanent olfaction upgrade from Transcendent Olfaction.");
+	add_skill_entry("Permanent Unlocks", "Bounty Hunter Hunter", $skill[Transcendent Olfaction], "Collect 200 filthy lucre from bounties and trade them to the Bounty Hunter Hunter for Manual of Transcendent Olfaction.");
+	foreach target in $items[bounty-hunting helmet, bounty-hunting rifle, bounty-hunting pants]
+		add_item_entry("Permanent Unlocks", "Bounty Hunter Hunter", target, "Buy this Bounty-Hunting Rig piece from the Bounty Hunter Hunter for 15 filthy lucre.");
+	add_item_entry("Permanent Unlocks", "Bounty Hunter Hunter", $item[pompadour'd puppy], "Buy the pompadour'd puppy for 100 filthy lucre and hatch it to obtain the Jumpsuited Hound Dog familiar.", have_familiar($familiar[Jumpsuited Hound Dog]), have_familiar($familiar[Jumpsuited Hound Dog]) ? "Familiar owned" : "Missing");
 	int telescope = get_property("telescopeUpgrades").to_int();
-	add_content_entry("Permanent Unlocks", "Fernswarthy's Basement", "Seven telescope upgrades", "Reach Basement level 500 and use the Discount Telescope Warehouse gift certificate. Repeat this in seven ascensions to install all seven permanent telescope upgrades.", telescope >= 7, telescope.to_string() + " / 7 upgrades");
-	add_fernwarthy_rewards();
+	add_content_entry("Permanent Unlocks", "Fernswarthy's Basement", "Seven telescope upgrades", "Reach Basement level 500 and use the Discount Telescope Warehouse gift certificate. Repeat this in seven ascensions to install all seven permanent telescope upgrades. The consumable rewards from levels 100–400 are intentionally not tracked.", telescope >= 7, telescope.to_string() + " / 7 upgrades");
 	add_seasonal_and_buyable_skills();
 	add_useful_class_skills();
 	add_sea_progress();
