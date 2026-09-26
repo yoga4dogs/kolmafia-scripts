@@ -201,15 +201,19 @@ void remind_test() {
 
 void main()
 {
-	if (get_property("_dailyRemindersGenerated").to_boolean())
-		return;
-/*
+	/* Stored notices survive page refreshes, so rebuild ours on every run. */
+	browser_notify_remove("test");
+	browser_notify_remove("daily-free-rests");
+	browser_notify_remove("daily-garden");
+	browser_notify_remove("daily-dungeon");
+	browser_notify_remove("daily-neverending-party");
+	browser_notify_remove("daily-bounties");
+
 	remind_test();
+
 	remind_about_free_rests();
 	remind_about_garden();
 	remind_about_daily_dungeon();
 	remind_about_neverending_party();
 	remind_about_bounties();
-*/
-	set_property("_dailyRemindersGenerated", "true");
 }

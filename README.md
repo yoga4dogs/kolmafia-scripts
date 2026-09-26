@@ -30,3 +30,5 @@ set dailyRemindersBounties = false
 ```
 
 The notices are displayed by `relay/main.ash` when the main pane loads.
+Running `daily_reminders.ash` again rebuilds its notices, so disabled or newly
+completed reminders disappear after the main pane is refreshed.

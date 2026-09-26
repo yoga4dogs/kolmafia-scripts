@@ -1,3 +1,32 @@
+void browser_notify_remove(string id)
+{
+	string raw = get_property("_browserNotifications");
+
+	if (raw == "")
+		return;
+
+	string [int] entries = split_string(raw, "\n");
+	string kept = "";
+
+	foreach i, entry in entries
+	{
+		if (entry == "")
+			continue;
+
+		string [int] fields = split_string(entry, "\\|\\|\\|");
+
+		if (count(fields) > 0 && fields[0] == id)
+			continue;
+
+		if (kept != "")
+			kept += "\n";
+
+		kept += entry;
+	}
+
+	set_property("_browserNotifications", kept);
+}
+
 void browser_notify(
 	string id,
 	string message,
@@ -23,6 +52,9 @@ void browser_notify(
 	url = replace_string(url, "\n", "");
 	tooltip = replace_string(tooltip, "\r", " ");
 	tooltip = replace_string(tooltip, "\n", " ");
+
+	// A notification ID is unique. Replace it rather than adding a duplicate.
+	browser_notify_remove(id);
 
 	string entry =
 		id + "|||" +
