@@ -86,6 +86,16 @@ void add_useful_class_skills()
 		add_class_skill(target);
 }
 
+void add_dread_skill(skill target, string recipient_class, string partner_class)
+{
+	add_skill_entry(
+		"Clan Dungeons",
+		"Dreadsylvania — " + recipient_class,
+		target,
+		"The " + recipient_class + " is the class that learns this skill. Complete its Dreadsylvania skill interaction with help from a " + partner_class + " and a third player."
+	);
+}
+
 void add_clan_dungeon_skills()
 {
 	foreach target in $skills[Awesome Balls of Fire, Conjure Relaxing Campfire, Snowclone, Maximum Chill, Eggsplosion, Mudbath, Grease Lightning, Inappropriate Backrub, Natural Born Scrabbler, Thrift and Grift, Abs of Tin, Marginally Insane, Raise Backup Dancer, Creepy Lullaby]
@@ -95,9 +105,22 @@ void add_clan_dungeon_skills()
 		add_skill_entry("Clan Dungeons", "Slime Tube", target, "Use a Slime Tube skill item made from hardened slime; repeat to raise this passive skill toward its maximum level of 10.");
 	foreach target in $items[hardened slime hat, hardened slime pants, hardened slime belt]
 		add_item_entry("Clan Dungeons", "Slime Tube", target, "Finish a sufficiently fast Slime Tube run, obtain a hardened slime piece, and assemble the permanent three-piece hardened slime outfit.");
-	foreach target in $skills[Club Earth, Carbohydrate Cudgel, Splattersmash, Grab a Cold One, Song of the North, Turtleini, Sauceshell, Conspiratorial Whispers, Song of Slowness, Spaghetti Breakfast, Shadow Noodles, Song of Starch, Splashdance, Song of Sauce, Song of Bravado]
-		add_skill_entry("Clan Dungeons", "Dreadsylvania", target, "Complete the appropriate three-player Dreadsylvania class interaction and learn the resulting class-pair skill.");
-	add_item_entry("Clan Dungeons", "Dreadsylvania", $item[Dreadsylvania Auditor's badge], "Accumulate Freddies in Dreadsylvania and buy the Auditor's badge from the village shop; it improves future Freddy acquisition.");
+	add_dread_skill($skill[Club Earth], "Seal Clubber", "Turtle Tamer");
+	add_dread_skill($skill[Carbohydrate Cudgel], "Seal Clubber", "Pastamancer");
+	add_dread_skill($skill[Splattersmash], "Seal Clubber", "Sauceror");
+	add_dread_skill($skill[Grab a Cold One], "Seal Clubber", "Disco Bandit");
+	add_dread_skill($skill[Song of the North], "Seal Clubber", "Accordion Thief");
+	add_dread_skill($skill[Turtleini], "Turtle Tamer", "Pastamancer");
+	add_dread_skill($skill[Sauceshell], "Turtle Tamer", "Sauceror");
+	add_dread_skill($skill[Conspiratorial Whispers], "Turtle Tamer", "Disco Bandit");
+	add_dread_skill($skill[Song of Slowness], "Turtle Tamer", "Accordion Thief");
+	add_dread_skill($skill[Spaghetti Breakfast], "Pastamancer", "Sauceror");
+	add_dread_skill($skill[Shadow Noodles], "Pastamancer", "Disco Bandit");
+	add_dread_skill($skill[Song of Starch], "Pastamancer", "Accordion Thief");
+	add_dread_skill($skill[Splashdance], "Sauceror", "Disco Bandit");
+	add_dread_skill($skill[Song of Sauce], "Sauceror", "Accordion Thief");
+	add_dread_skill($skill[Song of Bravado], "Disco Bandit", "Accordion Thief");
+	add_item_entry("Clan Dungeons", "Dreadsylvania — useful gear", $item[Dreadsylvania Auditor's badge], "Accumulate Freddies in Dreadsylvania and buy the Auditor's badge from the village shop; it improves future Freddy acquisition.");
 }
 
 void add_sea_progress()
@@ -119,7 +142,7 @@ void add_hardcore_perms()
 
 void initialize_long_term_entries()
 {
-	add_skill_entry("Permanent Unlocks", "Bounty Hunter Hunter", $skill[Transcendent Olfaction], "Collect 200 filthy lucre from bounties and trade them to the Bounty Hunter Hunter for Manual of Transcendent Olfaction. Olfactory Burnout does not count.");
+	add_skill_entry("Permanent Unlocks", "Bounty Hunter Hunter", $skill[Transcendent Olfaction], "Collect 200 filthy lucre from bounties and trade them to the Bounty Hunter Hunter for Manual of Transcendent Olfaction.");
 	int telescope = get_property("telescopeUpgrades").to_int();
 	add_content_entry("Permanent Unlocks", "Fernswarthy's Basement", "Seven telescope upgrades", "Reach Basement level 100, 200, 300, 400, 500, 600, and 700. Each milestone permanently adds one telescope upgrade.", telescope >= 7, telescope.to_string() + " / 7 upgrades");
 	add_useful_class_skills();
