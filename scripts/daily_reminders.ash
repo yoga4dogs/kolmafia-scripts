@@ -181,18 +181,20 @@ void remind_about_bounties()
 	}
 
 	browser_notify(
-		"test",
-		"TEST MESSAGE",
-		"main.php",
-		"JUST A TEST",
-		"message"
-	);
-
-	browser_notify(
 		"daily-bounties",
 		count(tiers) + " bounty " + (count(tiers) == 1 ? "assignment" : "assignments") + " available",
 		"bounty.php",
 		"Available tiers: " + available + ".",
+		"message"
+	);
+}
+
+void remind_test() {
+	browser_notify(
+		"test",
+		"TEST MESSAGE",
+		"main.php",
+		"JUST A TEST",
 		"message"
 	);
 }
@@ -202,6 +204,7 @@ void main()
 	if (get_property("_dailyRemindersGenerated").to_boolean())
 		return;
 
+	remind_test();
 	remind_about_free_rests();
 	remind_about_garden();
 	remind_about_daily_dungeon();
