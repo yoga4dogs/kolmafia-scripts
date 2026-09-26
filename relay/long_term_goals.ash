@@ -19,6 +19,19 @@ string entry_icon(LongTermEntry entry)
 	return "/images/itemimages/" + image;
 }
 
+string entry_description(LongTermEntry entry)
+{
+	string url = "";
+	if (entry.kind == "item")
+		url = "desc_item.php?whichitem=" + entry.item_value.descid;
+	else if (entry.kind == "skill")
+		url = "desc_skill.php?whichskill=" + entry.skill_value.to_int().to_string();
+
+	if (url == "")
+		return "";
+	return "<iframe class=\"game-description\" loading=\"lazy\" src=\"" + url + "\" title=\"In-game description for " + lt_escape(entry.name) + "\"></iframe>";
+}
+
 string render_entry(LongTermEntry entry)
 {
 	string state_class = entry.complete ? " completed" : "";
@@ -27,7 +40,8 @@ string render_entry(LongTermEntry entry)
 		"<img src=\"" + entry_icon(entry) + "\" alt=\"\">" +
 		"<span class=\"entry-name\">" + lt_escape(entry.name) + "</span>" +
 		"<span class=\"status\">" + lt_escape(badge) + "</span></summary>" +
-		"<div class=\"criteria\"><strong>Unlock criteria:</strong> " + lt_escape(entry.criteria) + "</div></details>";
+		"<div class=\"criteria\"><strong>Unlock criteria:</strong> " + lt_escape(entry.criteria) + "</div>" +
+		entry_description(entry) + "</details>";
 }
 
 void main()
@@ -65,6 +79,7 @@ void main()
 		"details.entry{border-bottom:1px solid #e4ded3}.entry summary{display:flex;align-items:center;gap:9px;padding:7px;cursor:pointer;list-style:none}.entry summary::-webkit-details-marker{display:none}" +
 		".entry summary:after{content:'▸';order:4;color:#777}.entry[open] summary:after{content:'▾'}.entry img{width:30px;height:30px;object-fit:contain}.entry-name{font-weight:bold;flex:1}" +
 		".status{font-size:11px;text-transform:uppercase;background:#f1c46b;padding:3px 6px;border-radius:9px}.completed .status{background:#9bd29b}.criteria{padding:4px 46px 11px;color:#514b43}" +
+		".game-description{display:block;width:calc(100% - 92px);height:250px;margin:0 46px 12px;border:1px solid #d8d1c5;background:#fff}" +
 		"body:not(.show-completed) .completed{display:none}a{color:#5c3b13}</style></head><body><main>" +
 		"<header><h1>Long-Term Goals</h1><p>Permanent unlocks, useful skills, major content, and durable account rewards.</p></header>" +
 		"<div class=\"toolbar\"><label><input id=\"show-completed\" type=\"checkbox\"> Show completed</label> &nbsp; <a href=\"main.php\">Back to main</a></div>" + body +
