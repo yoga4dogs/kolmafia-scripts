@@ -43,6 +43,12 @@ void add_hcperm_entry(skill target)
 	add_entry("Hardcore Perms", "Useful skills", target.to_string(), "skill", "Learn this skill, then spend Karma after an ascension to make it Hardcore Permanent. A normal Permanent (P) does not count.", target, complete, complete ? "Hardcore Permanent" : "Needs HC perm");
 }
 
+int account_owned_amount(item target)
+{
+	return item_amount(target) + equipped_amount(target) + closet_amount(target) +
+		storage_amount(target) + display_amount(target);
+}
+
 void add_item_entry(string category, string group, item target, string criteria)
 {
 	int i = count(long_term_entries);
@@ -52,7 +58,10 @@ void add_item_entry(string category, string group, item target, string criteria)
 	long_term_entries[i].kind = "item";
 	long_term_entries[i].criteria = criteria;
 	long_term_entries[i].item_value = target;
-	long_term_entries[i].complete = available_amount(target) > 0;
+	// available_amount() depends on retrieval settings and current ronin state.
+	// Check every character-owned location explicitly so Hagnk's and the closet
+	// still satisfy durable collection goals.
+	long_term_entries[i].complete = account_owned_amount(target) > 0;
 	long_term_entries[i].status = long_term_entries[i].complete ? "Owned" : "Not detected";
 }
 
