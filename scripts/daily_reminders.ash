@@ -8,6 +8,8 @@ import <browser_notify.ash>;
 	  dailyRemindersFreeRests = true
 	  dailyRemindersGarden = true
 	  dailyRemindersDailyDungeon = true
+	  dailyRemindersNeverendingParty = true
+	  dailyRemindersBounties = true
 
 	Each setting defaults to true. The script only queues reminders; it never
 	spends a turn, uses an item, or harvests the garden.
@@ -118,6 +120,75 @@ void remind_about_daily_dungeon()
 	);
 }
 
+void remind_about_neverending_party()
+{
+	if (!reminder_enabled("dailyRemindersNeverendingParty"))
+		return;
+
+	boolean party_available =
+		get_property("neverendingPartyAlways").to_boolean() ||
+		get_property("_neverendingPartyToday").to_boolean();
+
+	if (!party_available)
+		return;
+
+	if (have_skill($skill[Drinking to Drink]))
+		return;
+
+	if (get_property("_questPartyFair") == "finished")
+		return;
+
+	browser_notify(
+		"daily-neverending-party",
+		"The Neverending Party quest is not complete",
+		to_url($location[The Neverending Party]),
+		"Complete the daily Party Fair quest while working toward Drinking to Drink.",
+		"alert"
+	);
+}
+
+boolean bounty_available(string tier)
+{
+	return get_property("_untaken" + tier + "BountyItem") != "" ||
+		get_property("_unknown" + tier + "BountyItem") != "";
+}
+
+void remind_about_bounties()
+{
+	if (!reminder_enabled("dailyRemindersBounties"))
+		return;
+
+	/* Refresh the page so KoLmafia populates today's untaken bounty prefs. */
+	visit_url("bounty.php", false);
+
+	string [int] tiers;
+	if (bounty_available("Easy"))
+		tiers[count(tiers)] = "easy";
+	if (bounty_available("Hard"))
+		tiers[count(tiers)] = "hard";
+	if (bounty_available("Special"))
+		tiers[count(tiers)] = "specialty";
+
+	if (count(tiers) == 0)
+		return;
+
+	string available = "";
+	foreach i, tier in tiers
+	{
+		if (available != "")
+			available += ", ";
+		available += tier;
+	}
+
+	browser_notify(
+		"daily-bounties",
+		count(tiers) + " bounty " + (count(tiers) == 1 ? "assignment" : "assignments") + " available",
+		"bounty.php",
+		"Available tiers: " + available + ".",
+		"message"
+	);
+}
+
 void main()
 {
 	if (get_property("_dailyRemindersGenerated").to_boolean())
@@ -126,6 +197,8 @@ void main()
 	remind_about_free_rests();
 	remind_about_garden();
 	remind_about_daily_dungeon();
+	remind_about_neverending_party();
+	remind_about_bounties();
 
 	set_property("_dailyRemindersGenerated", "true");
 }
