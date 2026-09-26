@@ -1,3 +1,5 @@
+import <long_term_goals.ash>;
+
 string bn_escape(string s)
 {
 	s = replace_string(s, "&", "&amp;");
@@ -10,6 +12,8 @@ string bn_escape(string s)
 
 void main()
 {
+	handle_long_term_goal_action();
+
 	// Fetch the normal KoL main page.
 	buffer original = visit_url();
 	string page = original.to_string();
@@ -19,18 +23,11 @@ void main()
 
 	string raw = get_property("_browserNotifications");
 
-	// Nothing queued -- return normal page untouched.
-	if (raw == "")
-	{
-		write(page);
-		return;
-	}
-
 	string[int] notices = split_string(raw, "\n");
 
-	string notification_html =
-		"<div id=\"mafia-custom-notifications\" " +
-		"style=\"width:95%; margin:6px auto;\">";
+	string notification_html = "";
+	if (raw != "")
+		notification_html = "<div id=\"mafia-custom-notifications\" style=\"width:95%; margin:6px auto;\">";
 
 	foreach i, notice in notices
 	{
@@ -87,7 +84,15 @@ void main()
 		notification_html += "</div>";
 	}
 
-	notification_html += "</div>";
+	if (raw != "")
+		notification_html += "</div>";
+
+	string custom_html = notification_html + render_long_term_goals();
+	if (custom_html == "")
+	{
+		write(page);
+		return;
+	}
 
 	/*
 		Insert immediately after the opening BODY tag.
@@ -103,7 +108,7 @@ void main()
 	if (body_tag.find())
 	{
 		page = body_tag.replace_first(
-			body_tag.group(1) + notification_html
+			body_tag.group(1) + custom_html
 		);
 	}
 	else
@@ -116,10 +121,10 @@ void main()
 			page = replace_string(
 				page,
 				"</html>",
-				notification_html + "</html>"
+				custom_html + "</html>"
 			);
 		else
-			page += notification_html;
+			page += custom_html;
 	}
 
 	write(page);
