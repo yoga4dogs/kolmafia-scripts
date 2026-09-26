@@ -65,6 +65,19 @@ void add_item_entry(string category, string group, item target, string criteria)
 	long_term_entries[i].status = long_term_entries[i].complete ? "Owned" : "Not detected";
 }
 
+void add_item_entry(string category, string group, item target, string criteria, boolean complete, string status)
+{
+	int i = count(long_term_entries);
+	long_term_entries[i].category = category;
+	long_term_entries[i].group = group;
+	long_term_entries[i].name = target.to_string();
+	long_term_entries[i].kind = "item";
+	long_term_entries[i].criteria = criteria;
+	long_term_entries[i].item_value = target;
+	long_term_entries[i].complete = complete;
+	long_term_entries[i].status = status;
+}
+
 void add_content_entry(string category, string group, string name, string criteria, boolean complete, string status)
 {
 	add_entry(category, group, name, "content", criteria, $skill[none], complete, status);
@@ -100,7 +113,21 @@ void add_clan_dungeon_skills()
 {
 	foreach target in $skills[Awesome Balls of Fire, Conjure Relaxing Campfire, Snowclone, Maximum Chill, Eggsplosion, Mudbath, Grease Lightning, Inappropriate Backrub, Natural Born Scrabbler, Thrift and Grift, Abs of Tin, Marginally Insane, Raise Backup Dancer, Creepy Lullaby]
 		add_skill_entry("Clan Dungeons", "Hobopolis", target, "Acquire and read the corresponding Hobopolis skill book. Hodgman and the elemental district bosses supply the relevant books and journals.");
+	foreach target in $skills[Rainbow Gravitation, Vent Rage Gland]
+		add_skill_entry("Clan Dungeons", "Hobopolis — other permanent skills", target, "Complete the corresponding Hobopolis unlock and learn this permanent skill.");
 	add_item_entry("Clan Dungeons", "Hobopolis", $item[hobo code binder], "Get the binder from Hobopolis and fill it with glyphs found throughout the dungeon; the binder preserves learned hobo-code progress.");
+	foreach target in $items[Hodgman's whackin' stick, Hodgman's imaginary hamster, Hodgman's disgusting technicolor overcoat, Hodgman's porkpie hat, Hodgman's lobsterskin pants, Hodgman's bow tie, Hodgman's lucky sock, Hodgman's varcolac paw, Hodgman's almanac, Hodgman's harmonica, Hodgman's garbage sticker, Hodgman's metal detector, Hodgman's cane]
+		add_item_entry("Clan Dungeon Gear", "Hobopolis — Hodgman", target, "Defeat Hodgman and obtain this boss-equipment drop. Ownership is checked in inventory, equipped slots, the closet, Hagnk's storage, and the display case.");
+	foreach target in $items[Ol' Scratch's infernal pitchfork, Ol' Scratch's stove door, Ol' Scratch's manacles]
+		add_item_entry("Clan Dungeon Gear", "Hobopolis — Ol' Scratch", target, "Defeat Ol' Scratch in Burnbarrel Blvd. and obtain this boss drop.");
+	foreach target in $items[Chester's sunglasses, Chester's muscle shirt, Chester's Aquarius medallion]
+		add_item_entry("Clan Dungeon Gear", "Hobopolis — Chester", target, "Defeat Chester in the Purple Light District and obtain this boss drop.");
+	foreach target in $items[Zombo's shoulder blade, Zombo's skull ring, Zombo's empty eye]
+		add_item_entry("Clan Dungeon Gear", "Hobopolis — Zombo", target, "Defeat Zombo in The Ancient Hobo Burial Ground and obtain this boss drop.");
+	foreach target in $items[Frosty's arm, Staff of the Deepest Freeze, Frosty's iceball]
+		add_item_entry("Clan Dungeon Gear", "Hobopolis — Frosty", target, "Defeat Frosty in Exposure Esplanade and obtain this boss drop.");
+	foreach target in $items[Oscus's garbage can lid, Oscus's neverending soda, Oscus's flypaper pants]
+		add_item_entry("Clan Dungeon Gear", "Hobopolis — Oscus", target, "Defeat Oscus in The Heap and obtain this boss drop.");
 	foreach target in $skills[Slimy Sinews, Slimy Synapses, Slimy Shoulders]
 		add_skill_entry("Clan Dungeons", "Slime Tube", target, "Use a Slime Tube skill item made from hardened slime; repeat to raise this passive skill toward its maximum level of 10.");
 	foreach target in $items[hardened slime hat, hardened slime pants, hardened slime belt]
@@ -121,6 +148,48 @@ void add_clan_dungeon_skills()
 	add_dread_skill($skill[Song of Sauce], "Sauceror", "Accordion Thief");
 	add_dread_skill($skill[Song of Bravado], "Disco Bandit", "Accordion Thief");
 	add_item_entry("Clan Dungeons", "Dreadsylvania — useful gear", $item[Dreadsylvania Auditor's badge], "Accumulate Freddies in Dreadsylvania and buy the Auditor's badge from the village shop; it improves future Freddy acquisition.");
+	foreach target in $items[dreadful fedora, dreadful sweater, dreadful glove]
+		add_item_entry("Clan Dungeon Gear", "Dreadsylvania — Freddy shop", target, "Earn Freddy Kruegerands from Dreadsylvania and buy this permanent equipment from the village shop.");
+	foreach target in $items[Covers-Your-Head, Drapes-You-Regally, Warms-Your-Tush, Helps-You-Sleep, Quiets-Your-Steps, Protects-Your-Junk]
+		add_item_entry("Clan Dungeon Gear", "Dreadsylvania — Falls-From-Sky", target, "Defeat Falls-From-Sky and obtain this boss-equipment drop.");
+	foreach target in $items[Great Wolf's headband, Great Wolf's left paw, Great Wolf's right paw, Great Wolf's rocket launcher, Great Wolf's beastly trousers]
+		add_item_entry("Clan Dungeon Gear", "Dreadsylvania — Great Wolf", target, "Defeat the Great Wolf and obtain this boss-equipment drop.");
+	foreach target in $items[zombie mariachi hat, zombie accordion, zombie mariachi pants, HOA regulation book, HOA zombie eyes]
+		add_item_entry("Clan Dungeon Gear", "Dreadsylvania — Zombie Homeowners' Association", target, "Defeat the Zombie Homeowners' Association and obtain this boss-equipment drop.");
+	foreach target in $items[Mayor Ghost's toupee, Mayor Ghost's cloak, Mayor Ghost's khakis, Mayor Ghost's gavel, Mayor Ghost's sash]
+		add_item_entry("Clan Dungeon Gear", "Dreadsylvania — Mayor Ghost", target, "Defeat Mayor Ghost and obtain this boss-equipment drop.");
+	foreach target in $items[Thunkula's drinking cap, Drunkula's cape, Drunkula's silky pants, Drunkula's ring of haze, Drunkula's wineglass]
+		add_item_entry("Clan Dungeon Gear", "Dreadsylvania — Count Drunkula", target, "Defeat Count Drunkula and obtain this boss-equipment drop.");
+	foreach target in $items[Unkillable Skeleton's skullcap, Unkillable Skeleton's breastplate, Unkillable Skeleton's shinguards, Unkillable Skeleton's sawsword, Unkillable Skeleton's shield, Unkillable Skeleton's restless leg]
+		add_item_entry("Clan Dungeon Gear", "Dreadsylvania — Unkillable Skeleton", target, "Defeat the Unkillable Skeleton and obtain this boss-equipment drop.");
+}
+
+void add_seasonal_and_buyable_skills()
+{
+	add_content_entry("Permanent Unlocks", "Neverending Party", "Permanent Neverending Party access", "Use a Neverending Party invitation envelope to permanently unlock the Neverending Party for the account.", get_property("neverendingPartyAlways").to_boolean(), get_property("neverendingPartyAlways").to_boolean() ? "Unlocked" : "Locked");
+	add_skill_entry("Permanent Unlocks", "Neverending Party", $skill[Drinking to Drink], "Complete the Neverending Party's quest progression and learn Drinking to Drink, the party's permanent passive skill.");
+
+	foreach target in $skills[Carol of the Bulls, Carol of the Hells, Carol of the Thrills]
+		add_skill_entry("Seasonal Skills", "Crimbo Carols", target, "Acquire the matching Crimbo Carol skill item and use it to learn this permanent skill.");
+	foreach target in $skills[Crimbo Training: First Aid Technician, Crimbo Training: Passenger Greeter, Crimbo Training: Concierge, Crimbo Training: Track Switcher, Crimbo Training: Bartender, Crimbo Training:  Waiter, Crimbo Training: Coal Taster, Crimbo Training: Dessert Steward, Crimbo Training: Night Watchman, Crimbo Training: Sanitation Consultant, Crimbo Training: Graffiti Censor]
+		add_skill_entry("Seasonal Skills", "Crimbo Training", target, "Acquire a Crimbo training manual that teaches this specialty and use it to learn the permanent skill.");
+	foreach target in $skills[Ancient Crymbo Lore, Long Winter's Nap, Bowl Full of Jelly, Ashes and Soot, Eye and a Twist, Chubby and Plump, Dead Nostrils, Secret Door Awareness, Perpetrate Mild Evil, Chitinous Soul, Just the Facts, Elf Guard Cooking, Old-School Cocktailcrafting, Elf Guard Extortion Techniques, Fruit Recognition, Elf Guard Relaxation Techniques, Too Cool, Attract Snakes, Hide From Seekers, Reindeer Games, Master Egg Hunter, Holiday Multitasking]
+		add_skill_entry("Seasonal Skills", "Other Crimbo skills", target, "Obtain this permanent seasonal skill from its associated Crimbo reward, skill item, or training source.");
+	add_skill_entry("Seasonal Skills", "Other Crimbo skills", to_skill("Dimples, How Merry!"), "Obtain this permanent seasonal skill from its associated Crimbo reward, skill item, or training source.");
+
+	foreach target in $skills[Really Expensive Jewelrycrafting, Perfect Freeze, Deep Dark Visions, Shrap, Intimidating Mien, Dinsey Operations Expert, Bow-Legged Swagger, Astute Angler, Gingerbread Mob Hit, Tempuramancy, Deep Saucery, Silent Treatment]
+		add_skill_entry("Purchasable Skills", "Skill books and manuals", target, "Buy, trade for, or otherwise acquire the corresponding skill book or manual, then use it to learn this permanent skill.");
+}
+
+void add_fernwarthy_rewards()
+{
+	int telescope = get_property("telescopeUpgrades").to_int();
+	boolean earned_basement_rewards = telescope > 0;
+	string reward_status = earned_basement_rewards ? "Milestones cleared" : "Not yet verified";
+	add_item_entry("Permanent Unlocks", "Fernswarthy's Basement rewards", $item[sandwich of the gods], "Reach Basement level 100. Level 400 awards another sandwich together with the other two consumable milestone rewards.", earned_basement_rewards, reward_status);
+	add_item_entry("Permanent Unlocks", "Fernswarthy's Basement rewards", $item[Pan-Dimensional Gargle Blaster], "Reach Basement level 200. Level 400 awards another Gargle Blaster together with the other two consumable milestone rewards.", earned_basement_rewards, reward_status);
+	add_item_entry("Permanent Unlocks", "Fernswarthy's Basement rewards", $item[enchanted leopard-print barbell], "Reach Basement level 300. Level 400 awards another barbell together with the other two consumable milestone rewards.", earned_basement_rewards, reward_status);
+	add_item_entry("Permanent Unlocks", "Fernswarthy's Basement rewards", $item[Discount Telescope Warehouse gift certificate], "Reach Basement level 500 and use the certificate to add one permanent telescope upgrade. Repeat level-500 clears across ascensions to reach all seven upgrades.", telescope >= 7, telescope.to_string() + " / 7 upgrades");
 }
 
 void add_sea_progress()
@@ -142,9 +211,12 @@ void add_hardcore_perms()
 
 void initialize_long_term_entries()
 {
-	add_skill_entry("Permanent Unlocks", "Bounty Hunter Hunter", $skill[Transcendent Olfaction], "Collect 200 filthy lucre from bounties and trade them to the Bounty Hunter Hunter for Manual of Transcendent Olfaction.");
+	add_skill_entry("Permanent Unlocks", "Bounty Hunter Hunter", $skill[Transcendent Olfaction], "Collect 200 filthy lucre from bounties and trade them to the Bounty Hunter Hunter for Manual of Transcendent Olfaction. Also acquire Olfactory Burnout separately if it is still missing.");
+	add_skill_entry("Permanent Unlocks", "Bounty Hunter Hunter", $skill[Olfactory Burnout], "Acquire and use the Olfactory Burnout skill item; this is a separate permanent olfaction upgrade from Transcendent Olfaction.");
 	int telescope = get_property("telescopeUpgrades").to_int();
-	add_content_entry("Permanent Unlocks", "Fernswarthy's Basement", "Seven telescope upgrades", "Reach Basement level 100, 200, 300, 400, 500, 600, and 700. Each milestone permanently adds one telescope upgrade.", telescope >= 7, telescope.to_string() + " / 7 upgrades");
+	add_content_entry("Permanent Unlocks", "Fernswarthy's Basement", "Seven telescope upgrades", "Reach Basement level 500 and use the Discount Telescope Warehouse gift certificate. Repeat this in seven ascensions to install all seven permanent telescope upgrades.", telescope >= 7, telescope.to_string() + " / 7 upgrades");
+	add_fernwarthy_rewards();
+	add_seasonal_and_buyable_skills();
 	add_useful_class_skills();
 	add_sea_progress();
 	add_clan_dungeon_skills();
