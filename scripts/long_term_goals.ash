@@ -77,7 +77,7 @@ string[int] base_class_skill_ids()
 	);
 }
 
-skill[int] hardcore_perm_watch_list()
+boolean[skill] hardcore_perm_watch_list()
 {
 	return $skills[
 		Really Expensive Jewelrycrafting, Perfect Freeze, Snowclone,
@@ -109,12 +109,12 @@ boolean hcperm_ignored(skill candidate)
 int sea_classes_complete()
 {
 	string[int] abbreviations = split_string("SC,TT,PM,S,DB,AT", ",");
-	class[int] classes = $classes[Seal Clubber, Turtle Tamer, Pastamancer, Sauceror, Disco Bandit, Accordion Thief];
+	string[int] class_names = split_string("Seal Clubber,Turtle Tamer,Pastamancer,Sauceror,Disco Bandit,Accordion Thief", ",");
 	int complete = 0;
 	foreach i, abbreviation in abbreviations
 	{
 		boolean done = get_property("_customGoal_sea_" + abbreviation).to_boolean();
-		if (!done && my_class() == classes[i] && get_property("questS02Monkees") == "finished")
+		if (!done && my_class() == class_names[i].to_class() && get_property("questS02Monkees") == "finished")
 			done = true;
 		if (done)
 			complete += 1;
@@ -135,7 +135,7 @@ int hardcore_perms_remaining()
 {
 	boolean[skill] permed = get_permed_skills();
 	int remaining = 0;
-	foreach i, candidate in hardcore_perm_watch_list()
+	foreach candidate, selected in hardcore_perm_watch_list()
 		if (!hcperm_ignored(candidate) && !permed[candidate])
 			remaining += 1;
 	return remaining;
