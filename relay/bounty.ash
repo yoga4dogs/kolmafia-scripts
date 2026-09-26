@@ -34,11 +34,22 @@ string decorate_bounty(string page, string tier)
 	if (target == $bounty[none] || target.location == $location[none])
 		return page;
 
-	return replace_string(
-		page,
-		target.location.to_string(),
-		target.location.to_string() + bounty_indicator(target)
-	);
+	/*
+		The location displayed by KoL is not always KoLmafia's location name
+		("Mt. McLargeHuge" vs. "Lair of the Ninja Snowmen", for example).
+		The bounty image is stable and uniquely identifies the description.
+	*/
+	int image_offset = index_of(page, target.image);
+	if (image_offset < 0)
+		return page;
+
+	int line_break = index_of(substring(page, image_offset), "<br");
+	if (line_break < 0)
+		return page;
+
+	int insertion = image_offset + line_break;
+	return substring(page, 0, insertion) + "&nbsp;" + bounty_indicator(target) +
+		substring(page, insertion);
 }
 
 void main()
