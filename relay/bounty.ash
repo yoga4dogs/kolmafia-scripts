@@ -31,13 +31,13 @@ string decorate_bounty(string page, string tier)
 {
 	bounty target = to_bounty(current_bounty(tier));
 
-	if (target == $bounty[none] || target.plural == "")
+	if (target == $bounty[none] || target.location == $location[none])
 		return page;
 
 	return replace_string(
 		page,
-		target.plural,
-		bounty_indicator(target) + target.plural
+		target.location.to_string(),
+		target.location.to_string() + bounty_indicator(target)
 	);
 }
 
