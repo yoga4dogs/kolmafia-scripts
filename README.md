@@ -48,7 +48,9 @@ set dailyRemindersItemGenerators = false
 
 The notices are displayed by `relay/main.ash`. It reruns `daily_reminders.ash`
 whenever the main map loads, so disabled or newly completed reminders disappear
-as soon as the main pane is refreshed.
+as soon as the main pane is refreshed. The map also refreshes automatically when
+you return to the relay browser after using a KoLmafia Daily Deed, so deeds that
+cast a skill update or remove the corresponding reminder immediately.
 
 The main map also links to a standalone **Long-Term Goals** page. It organizes
 important permanent unlocks, useful class skills, Sea progress, clan-dungeon

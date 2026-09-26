@@ -85,7 +85,23 @@ void main()
 		"<a href=\"long_term_goals.php\" style=\"color:inherit; text-decoration:none;\" title=\"Browse permanent unlocks, useful skills, major content, and historical rewards\">Long-Term Goals</a></div>";
 	if (raw == "")
 		notification_html = "<div id=\"mafia-custom-notifications\" style=\"width:95%; margin:6px auto;\">";
-	notification_html += goals_link + "</div>";
+	notification_html += goals_link + "</div>" +
+		/* Daily Deeds run in KoLmafia rather than in the relay browser. When the
+		   player returns to the browser, rebuild the map so notices reflect any
+		   preferences changed by a deed without requiring a manual refresh. */
+		"<script>(function(){" +
+		"var host=window.top;" +
+		"host.__mafiaReminderRefresh=function(){window.location.reload();};" +
+		"if(host.__mafiaReminderFocusHook){return;}" +
+		"host.__mafiaReminderFocusHook=true;" +
+		"var away=false;" +
+		"function refresh(){if(!away){return;}away=false;host.__mafiaReminderRefresh();}" +
+		"host.addEventListener('blur',function(){away=true;});" +
+		"host.addEventListener('focus',refresh);" +
+		"host.document.addEventListener('visibilitychange',function(){" +
+		"if(host.document.hidden){away=true;}else{refresh();}" +
+		"});" +
+		"})();</script>";
 
 	string custom_html = notification_html;
 	if (custom_html == "")
