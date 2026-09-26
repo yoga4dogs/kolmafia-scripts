@@ -2,6 +2,7 @@ string bn_escape(string s)
 {
 	s = replace_string(s, "&", "&amp;");
 	s = replace_string(s, "\"", "&quot;");
+	s = replace_string(s, "'", "&#39;");
 	s = replace_string(s, "<", "&lt;");
 	s = replace_string(s, ">", "&gt;");
 	return s;

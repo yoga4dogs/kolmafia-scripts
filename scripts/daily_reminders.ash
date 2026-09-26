@@ -39,7 +39,7 @@ int garden_growth()
 		seed_packet = $item[Peppermint Pip Packet];
 		break;
 	case "skeleton":
-		seed_packet = $item[packet of dragon's teeth];
+		seed_packet = $item[packet of dragon\'s teeth];
 		break;
 	case "beer":
 		seed_packet = $item[packet of beer seeds];
