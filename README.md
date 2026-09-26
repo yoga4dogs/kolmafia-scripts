@@ -29,6 +29,6 @@ set dailyRemindersNeverendingParty = false
 set dailyRemindersBounties = false
 ```
 
-The notices are displayed by `relay/main.ash` when the main pane loads.
-Running `daily_reminders.ash` again rebuilds its notices, so disabled or newly
-completed reminders disappear after the main pane is refreshed.
+The notices are displayed by `relay/main.ash`. It reruns `daily_reminders.ash`
+whenever the main map loads, so disabled or newly completed reminders disappear
+as soon as the main pane is refreshed.

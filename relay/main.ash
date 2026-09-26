@@ -14,6 +14,9 @@ void main()
 	buffer original = visit_url();
 	string page = original.to_string();
 
+	// Re-evaluate dynamic notices whenever the main map is loaded.
+	cli_execute("daily_reminders.ash");
+
 	string raw = get_property("_browserNotifications");
 
 	// Nothing queued -- return normal page untouched.
