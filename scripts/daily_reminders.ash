@@ -10,8 +10,6 @@ import <browser_notify.ash>;
 	  dailyRemindersDailyDungeon = true
 	  dailyRemindersNeverendingParty = true
 	  dailyRemindersBounties = true
-	  dailyRemindersChateauDesk = true
-	  dailyRemindersFreeFights = true
 	  dailyRemindersProgression = true
 	  dailyRemindersClan = true
 	  dailyRemindersWorkshed = true
@@ -155,83 +153,6 @@ void remind_about_neverending_party()
 	);
 }
 
-void remind_about_chateau_desk()
-{
-	if (!reminder_enabled("dailyRemindersChateauDesk"))
-		return;
-
-	if (!get_property("chateauAvailable").to_boolean())
-		return;
-
-	if (get_property("_chateauDeskHarvested").to_boolean())
-		return;
-
-	browser_notify(
-		"daily-chateau-desk",
-		"Your Chateau desk item is still available",
-		"place.php?whichplace=chateau&action=chateau_desk",
-		"Visit the desk to collect its free daily item.",
-		"message"
-	);
-}
-
-void add_free_fights(string [int] sources, string name, int used, int maximum)
-{
-	int remaining = maximum - used;
-	if (remaining > 0)
-		sources[count(sources)] = name + ": " + remaining;
-}
-
-void remind_about_free_fights()
-{
-	if (!reminder_enabled("dailyRemindersFreeFights"))
-		return;
-
-	string [int] sources;
-
-	if (get_campground()[$item[Witchess Set]] > 0)
-		add_free_fights(sources, "Witchess", get_property("_witchessFights").to_int(), 5);
-
-	if (get_property("snojoAvailable").to_boolean())
-		add_free_fights(sources, "Snojo", get_property("_snojoFreeFights").to_int(), 10);
-
-	boolean party_available =
-		get_property("neverendingPartyAlways").to_boolean() ||
-		get_property("_neverendingPartyToday").to_boolean();
-	if (party_available)
-		add_free_fights(sources, "Neverending Party", get_property("_neverendingPartyFreeTurns").to_int(), 10);
-
-	if (get_property("ownsSpeakeasy").to_boolean())
-		add_free_fights(sources, "Speakeasy", get_property("_speakeasyFreeFights").to_int(), 3);
-
-	if (have_familiar($familiar[God Lobster]))
-		add_free_fights(sources, "God Lobster", get_property("_godLobsterFights").to_int(), 3);
-
-	if (get_property("voteAlways").to_boolean() && get_property("_voteToday").to_boolean())
-		add_free_fights(sources, "Voting Booth", get_property("_voteFreeFights").to_int(), 3);
-
-	if (count(sources) == 0)
-		return;
-
-	int total = 0;
-	string details = "";
-	foreach i, source in sources
-	{
-		if (details != "")
-			details += ", ";
-		details += source;
-		total += source.substring(source.index_of(": ") + 2).to_int();
-	}
-
-	browser_notify(
-		"daily-free-fights",
-		total + " free " + (total == 1 ? "fight" : "fights") + " available",
-		"main.php",
-		details + ".",
-		"message"
-	);
-}
-
 void remind_about_progression()
 {
 	if (!reminder_enabled("dailyRemindersProgression"))
@@ -322,29 +243,66 @@ void remind_about_clan_freebies()
 		return;
 
 	string lounge = visit_url("clan_viplounge.php", false);
-	string available = "";
-
 	if (contains_text(lounge, "klaw") && get_property("_deluxeKlawSummons").to_int() < 3)
-		available += "Mr. Klaw: " + (3 - get_property("_deluxeKlawSummons").to_int());
-	if (contains_text(lounge, "lookingglass") && !get_property("_lookingGlass").to_boolean())
-		available += (available == "" ? "" : ", ") + "looking glass";
-	if (contains_text(lounge, "crimbotree") && !get_property("_crimboTree").to_boolean() && get_property("crimboTreeDays").to_int() == 0)
-		available += (available == "" ? "" : ", ") + "Crimbo tree";
-	if (contains_text(lounge, "pooltable") && get_property("_poolGames").to_int() < 3)
-		available += (available == "" ? "" : ", ") + "pool games: " + (3 - get_property("_poolGames").to_int());
-	if (contains_text(lounge, "shower") && !get_property("_aprilShower").to_boolean())
-		available += (available == "" ? "" : ", ") + "April shower";
-	if (contains_text(lounge, "swimmingpool") && !get_property("_olympicSwimmingPool").to_boolean())
-		available += (available == "" ? "" : ", ") + "swimming pool";
-	if (contains_text(lounge, "lovetester") && !get_property("_clanFortuneBuffUsed").to_boolean())
-		available += (available == "" ? "" : ", ") + "fortune buff";
-
-	if (available != "")
 		browser_notify(
-			"daily-clan-freebies",
-			"Clan VIP freebies remain",
-			"clan_viplounge.php",
-			available + ".",
+			"daily-clan-klaw",
+			(3 - get_property("_deluxeKlawSummons").to_int()) + " Deluxe Mr. Klaw pulls remain",
+			"clan_viplounge.php?action=klaw",
+			"Use the Deluxe Mr. Klaw crane game.",
+			"message"
+		);
+
+	if (contains_text(lounge, "lookingglass") && !get_property("_lookingGlass").to_boolean())
+		browser_notify(
+			"daily-clan-looking-glass",
+			"The VIP looking-glass item is available",
+			"clan_viplounge.php?action=lookingglass",
+			"Collect today's item from the looking glass.",
+			"message"
+		);
+
+	if (contains_text(lounge, "crimbotree") && !get_property("_crimboTree").to_boolean() && get_property("crimboTreeDays").to_int() == 0)
+		browser_notify(
+			"daily-clan-crimbo-tree",
+			"A Crimbo tree present is ready",
+			"clan_viplounge.php?action=crimbotree",
+			"Collect the present from the clan Crimbo tree.",
+			"message"
+		);
+
+	if (contains_text(lounge, "lovetester") && !get_property("_clanFortuneBuffUsed").to_boolean())
+		browser_notify(
+			"daily-clan-fortune",
+			"Your clan fortune buff is unused",
+			"clan_viplounge.php?preaction=lovetester",
+			"Consult the Fortune Teller for today's buff.",
+			"message"
+		);
+
+	if (contains_text(lounge, "photobooth") && get_property("_photoBoothEquipment").to_int() < 3)
+		browser_notify(
+			"daily-clan-photobooth-equipment",
+			(3 - get_property("_photoBoothEquipment").to_int()) + " Photo Booth equipment uses remain",
+			"clan_viplounge.php?action=photobooth",
+			"Collect equipment from the clan Photo Booth.",
+			"message"
+		);
+
+	if (contains_text(lounge, "photobooth") && get_property("_photoBoothEffects").to_int() < 3)
+		browser_notify(
+			"daily-clan-photobooth-effects",
+			(3 - get_property("_photoBoothEffects").to_int()) + " Photo Booth effects remain",
+			"clan_viplounge.php?action=photobooth",
+			"Choose an effect from the clan Photo Booth.",
+			"message"
+		);
+
+	if (contains_text(lounge, "floundry") && !get_property("_floundryItemCreated").to_boolean())
+		browser_notify(
+			"daily-clan-floundry",
+			"Your daily Floundry item is unclaimed",
+			"clan_viplounge.php?action=floundry",
+			"Create one item from the clan Floundry.",
 			"message"
 		);
 }
@@ -355,22 +313,30 @@ void remind_about_workshed()
 		return;
 
 	item workshed = get_workshed();
-	string available = "";
 
 	if (workshed == $item[cold medicine cabinet] && get_property("_coldMedicineConsults").to_int() < 5)
-		available = "medicine consultations used: " + get_property("_coldMedicineConsults") + "/5";
+		browser_notify(
+			"daily-cold-medicine-cabinet",
+			(5 - get_property("_coldMedicineConsults").to_int()) + " cold-medicine consultations remain",
+			"campground.php?action=workshed",
+			"Consult the cold medicine cabinet when its timer is ready.",
+			"message"
+		);
 	else if (workshed == $item[Little Geneticist DNA-Splicing Lab] &&
 		get_property("dnaSyringe") != "" && get_property("_dnaPotionsMade").to_int() < 3)
-		available = "DNA potions made: " + get_property("_dnaPotionsMade") + "/3";
-	else if (workshed == $item[portable Mayo Clinic] && !get_property("_mayoTankSoaked").to_boolean())
-		available = "Mayo tank soak";
-
-	if (available != "")
 		browser_notify(
-			"daily-workshed",
-			"A workshed daily is available",
+			"daily-dna-potions",
+			(3 - get_property("_dnaPotionsMade").to_int()) + " DNA potions remain",
 			"campground.php?action=workshed",
-			available + ".",
+			"Use the DNA stored in your syringe to make a tonic.",
+			"message"
+		);
+	else if (workshed == $item[portable Mayo Clinic] && !get_property("_mayoTankSoaked").to_boolean())
+		browser_notify(
+			"daily-mayo-tank-soak",
+			"Your daily Mayo tank soak is available",
+			"campground.php?action=workshed",
+			"Soak in the Mayo tank for its daily effect.",
 			"message"
 		);
 }
@@ -395,18 +361,21 @@ void remind_about_campaway()
 	if (!reminder_enabled("dailyRemindersCampaway") || !get_property("getawayCampsiteUnlocked").to_boolean())
 		return;
 
-	string available = "";
 	if (get_property("_campAwayCloudBuffs").to_int() == 0)
-		available = "sky buff";
-	if (get_property("_campAwaySmileBuffs").to_int() == 0)
-		available += (available == "" ? "" : ", ") + "smile buff";
-
-	if (available != "")
 		browser_notify(
-			"daily-campaway",
-			"Distant Woods Getaway freebies remain",
-			"place.php?whichplace=campaway",
-			available + ".",
+			"daily-campaway-sky",
+			"Your Campaway sky buff is available",
+			"place.php?whichplace=campaway&action=campaway_sky",
+			"Look at the sky at your Distant Woods Getaway.",
+			"message"
+		);
+
+	if (get_property("_campAwaySmileBuffs").to_int() == 0)
+		browser_notify(
+			"daily-campaway-smile",
+			"Your Campaway smile buff is available",
+			"place.php?whichplace=campaway&action=campaway_smile",
+			"Smile at your Distant Woods Getaway.",
 			"message"
 		);
 }
@@ -416,24 +385,30 @@ void remind_about_item_generators()
 	if (!reminder_enabled("dailyRemindersItemGenerators"))
 		return;
 
-	string available = "";
-	if (available_amount($item[Deck of Every Card]) > 0 && get_property("_deckCardsDrawn").to_int() < 15)
-		available = "Deck draws: " + (15 - get_property("_deckCardsDrawn").to_int());
-	if (available_amount($item[potted tea tree]) > 0 && !get_property("_pottedTeaTreeUsed").to_boolean())
-		available += (available == "" ? "" : ", ") + "potted tea tree";
-	if (get_property("barrelShrineUnlocked").to_boolean() && !get_property("_barrelPrayer").to_boolean())
-		available += (available == "" ? "" : ", ") + "Barrel god prayer";
 	if (get_campground()[$item[Source terminal]] > 0 && get_property("_sourceTerminalExtrudes").to_int() < 3)
-		available += (available == "" ? "" : ", ") + "Source Terminal extrudes: " + (3 - get_property("_sourceTerminalExtrudes").to_int());
-	if (get_campground()[$item[spinning wheel]] > 0 && !get_property("_spinningWheel").to_boolean())
-		available += (available == "" ? "" : ", ") + "spinning wheel";
-
-	if (available != "")
 		browser_notify(
-			"daily-item-generators",
-			"Daily item generation remains",
-			"campground.php",
-			available + ".",
+			"daily-source-terminal-extrudes",
+			(3 - get_property("_sourceTerminalExtrudes").to_int()) + " Source Terminal extrudes remain",
+			"campground.php?action=terminal",
+			"Use the Source Terminal's daily extrusions.",
+			"message"
+		);
+
+	if (get_campground()[$item[spinning wheel]] > 0 && !get_property("_spinningWheel").to_boolean())
+		browser_notify(
+			"daily-spinning-wheel",
+			"Your spinning-wheel use is available",
+			"campground.php?action=spinningwheel",
+			"Use the spinning wheel for its daily item.",
+			"message"
+		);
+
+	if (available_amount($item[Chroner trigger]) > 0 && !get_property("_chronerTriggerUsed").to_boolean())
+		browser_notify(
+			"daily-chroner-trigger",
+			"Your Chroner trigger is unused",
+			"inventory.php?which=3",
+			"Use the Chroner trigger for today's chroner.",
 			"message"
 		);
 }
@@ -506,8 +481,6 @@ void main()
 	remind_about_garden();
 	remind_about_daily_dungeon();
 	remind_about_neverending_party();
-	remind_about_chateau_desk();
-	remind_about_free_fights();
 	remind_about_progression();
 	remind_about_clan_freebies();
 	remind_about_workshed();

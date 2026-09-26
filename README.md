@@ -10,13 +10,15 @@ its adventure location is currently accessible, or a red square when it is not.
 - `raffle_login.ash` adds a browser notice for the day's raffle prize.
 - `daily_reminders.ash` adds notices for useful unfinished daily actions:
   available free rests when HP or MP is missing, garden growth, the Daily
-  Dungeon, the Neverending Party quest, a free Chateau desk item, consolidated
-  free fights, permanent-unlock progress, Clan VIP facilities, workshed
-  actions, voting, Campaway buffs, daily item generators, and available bounty
+  Dungeon, the Neverending Party quest, permanent-unlock progress, specific
+  Clan VIP facilities, workshed actions, voting, Campaway buffs, selected daily
+  item generators, and available bounty
   assignments. The bounty notice tracks filthy lucre toward `Transcendent
   Olfaction`, including lucre in Hagnk's during Hardcore or Ronin. Progression
   notices cover LT&T, Gingerbread City, Spacegate vaccines, Snojo reward tracks,
-  and Witchess puzzles. The party notice is suppressed after learning
+  and Witchess puzzles. The new clan and item-generator notices name their
+  exact source and avoid resources already represented by KoLmafia's default
+  Daily Deeds. The party notice is suppressed after learning
   `Drinking to Drink`. The script only reports; it never accepts a quest,
   spends a turn, uses an item, or harvests anything.
 
@@ -36,8 +38,6 @@ set dailyRemindersGarden = false
 set dailyRemindersDailyDungeon = false
 set dailyRemindersNeverendingParty = false
 set dailyRemindersBounties = false
-set dailyRemindersChateauDesk = false
-set dailyRemindersFreeFights = false
 set dailyRemindersProgression = false
 set dailyRemindersClan = false
 set dailyRemindersWorkshed = false
