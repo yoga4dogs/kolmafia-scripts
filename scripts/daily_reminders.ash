@@ -236,7 +236,7 @@ int filthy_lucre_owned()
 	/* Hagnk's is inaccessible in Hardcore and Ronin, so available_amount()
 	   does not include the lucre stored there. It still counts toward the
 	   long-term Transcendent Olfaction goal. */
-	if (in_hardcore() || ronin_left() > 0)
+	if (!can_interact())
 		total += storage_amount($item[filthy lucre]);
 
 	return total;
