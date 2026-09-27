@@ -1,3 +1,20 @@
+boolean browser_notify_exists(string id)
+{
+	string raw = get_property("_browserNotifications");
+	if (raw == "")
+		return false;
+
+	string [int] entries = split_string(raw, "\n");
+	foreach i, entry in entries
+	{
+		string [int] fields = split_string(entry, "\\|\\|\\|");
+		if (count(fields) > 0 && fields[0] == id)
+			return true;
+	}
+
+	return false;
+}
+
 void browser_notify_remove_matching(string value, boolean prefix)
 {
 	string raw = get_property("_browserNotifications");

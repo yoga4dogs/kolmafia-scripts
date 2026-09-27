@@ -1,5 +1,6 @@
 string bn_escape(string s)
 {
+	s = entity_decode(s);
 	s = replace_string(s, "&", "&amp;");
 	s = replace_string(s, "\"", "&quot;");
 	s = replace_string(s, "'", "&#39;");
@@ -15,6 +16,7 @@ void main()
 	string page = original.to_string();
 
 	// Re-evaluate dynamic notices whenever the main map is loaded.
+	cli_execute("raffle_login.ash");
 	cli_execute("daily_reminders.ash");
 
 	string raw = get_property("_browserNotifications");

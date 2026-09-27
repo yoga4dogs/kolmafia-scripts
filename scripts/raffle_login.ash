@@ -11,6 +11,7 @@ string clean_text(string s)
 	s = replace_string(s, "&nbsp;", " ");
 	s = replace_string(s, "&quot;", "\"");
 	s = replace_string(s, "&#39;", "'");
+	s = replace_string(s, "&trade;", "™");
 	s = replace_string(s, "&amp;", "&");
 
 	s = replace_string(s, "<br>", " ");
@@ -96,7 +97,8 @@ void main()
 		If we've already generated today's notification,
 		don't do the network requests again.
 	*/
-	if (get_property("_raffleReminderGenerated") == "true")
+	if (get_property("_raffleReminderGenerated") == "true" &&
+		browser_notify_exists("raffle"))
 		return;
 
 	buffer raffle_page = visit_url("raffle.php", false);
