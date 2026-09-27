@@ -43,11 +43,19 @@ string decorate_bounty(string page, string tier)
 	if (image_offset < 0)
 		return page;
 
-	int line_break = index_of(substring(page, image_offset), "<br");
-	if (line_break < 0)
+	string after_image = substring(page, image_offset);
+	int image_cell_end = index_of(after_image, "</td>");
+	if (image_cell_end < 0)
 		return page;
 
-	int insertion = image_offset + line_break;
+	int description_cell_end = index_of(
+		substring(after_image, image_cell_end + 5),
+		"</td>"
+	);
+	if (description_cell_end < 0)
+		return page;
+
+	int insertion = image_offset + image_cell_end + 5 + description_cell_end;
 	return substring(page, 0, insertion) + "&nbsp;" + bounty_indicator(target) +
 		substring(page, insertion);
 }
