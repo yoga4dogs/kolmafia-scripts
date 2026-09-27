@@ -8,11 +8,12 @@ its adventure location is currently accessible, or a red square when it is not.
 ## Login scripts
 
 - `raffle_login.ash` adds a browser notice for the day's raffle prize.
-- `daily_reminders.ash` adds notices for the unfinished Neverending Party quest
-  and available bounty assignments. The party notice is suppressed after
-  learning `Drinking to Drink`. The bounty notice tracks filthy lucre toward
-  `Transcendent Olfaction`, including lucre in Hagnk's during Hardcore or
-  Ronin. The script only reports; it never accepts a quest or spends a turn.
+- `daily_reminders.ash` shows the Neverending Party quest's incomplete or
+  complete state and adds notices for available bounty assignments. The party
+  notice is suppressed after learning `Drinking to Drink`. The bounty notice
+  tracks filthy lucre toward `Transcendent Olfaction`, including lucre in
+  Hagnk's during Hardcore or Ronin. The script only reports; it never accepts a
+  quest or spends a turn.
 
 To run both after login, add them to KoLmafia's **Login Script** setting, or
 call them from your existing login script:

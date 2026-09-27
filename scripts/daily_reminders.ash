@@ -35,15 +35,19 @@ void remind_about_neverending_party()
 		return;
 	if (have_skill($skill[Drinking to Drink]))
 		return;
-	if (get_property("_questPartyFair") == "finished")
-		return;
+
+	boolean quest_complete = get_property("_questPartyFair") == "finished";
 
 	browser_notify(
 		"daily-neverending-party",
-		"The Neverending Party quest is not complete",
+		quest_complete
+			? "Neverending Party quest: COMPLETE"
+			: "The Neverending Party quest is not complete",
 		to_url($location[The Neverending Party]),
-		"Complete the daily Party Fair quest while working toward Drinking to Drink.",
-		"alert"
+		quest_complete
+			? "Today's Party Fair quest is complete."
+			: "Complete the daily Party Fair quest while working toward Drinking to Drink.",
+		quest_complete ? "message" : "alert"
 	);
 }
 
